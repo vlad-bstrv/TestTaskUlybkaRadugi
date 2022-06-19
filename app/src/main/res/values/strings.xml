@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">TestTaskUlybkaRadugi</string>
+    <string name="name_user">имя пользователя</string>
+    <string name="password">пароль</string>
+    <string name="login">войти</string>
+    <string name="id_pos">id позиции</string>
+    <string name="id_record">id записи</string>
+    <string name="nom_route">Номер маршрута</string>
+    <string name="nom_nakl">Номер накладной</string>
+    <string name="nom_zak">Номер заказа</string>
 </resources>
