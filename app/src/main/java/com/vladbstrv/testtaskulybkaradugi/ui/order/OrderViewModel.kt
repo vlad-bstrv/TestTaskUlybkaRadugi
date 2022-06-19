@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.vladbstrv.testtaskulybkaradugi.data.AppState
 import com.vladbstrv.testtaskulybkaradugi.domain.Repository
+import com.vladbstrv.testtaskulybkaradugi.domain.entity.DataEntity
 import kotlinx.coroutines.launch
 
 class OrderViewModel(private val repo: Repository) : ViewModel() {
@@ -19,5 +20,9 @@ class OrderViewModel(private val repo: Repository) : ViewModel() {
                 data.postValue(AppState.Error(e))
             }
         }
+    }
+
+    fun addData(dataItem: List<DataEntity>) {
+
     }
 }

@@ -7,14 +7,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vladbstrv.testtaskulybkaradugi.databinding.FragmentOrderRecylerviewItemBinding
 import com.vladbstrv.testtaskulybkaradugi.domain.entity.DataEntity
 
-class OrderAdapter :
+class OrderAdapter(val onListItemClickListener: OnListItemClickListener) :
     RecyclerView.Adapter<OrderAdapter.RecyclerItemViewHolder>() {
 
-    private var data: List<DataEntity> = arrayListOf()
+    private var data: MutableList<DataEntity> = mutableListOf()
+    var selectedItem = mutableListOf<DataEntity>()
 
     fun setData(data: List<DataEntity>) {
-        this.data = data
+        this.data = data as MutableList<DataEntity>
         notifyDataSetChanged()
+    }
+
+    fun addItemToBottom() {
+        if(selectedItem.isNotEmpty()) {
+            data.addAll(selectedItem)
+            notifyDataSetChanged()
+        }
+    }
+
+    fun addItemToTop() {
+        if(selectedItem.isNotEmpty()) {
+            data.addAll(0, selectedItem)
+            notifyDataSetChanged()
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerItemViewHolder {
@@ -45,6 +60,12 @@ class OrderAdapter :
                     textViewNomRoute.text = data.nomRoute.toString()
                     textViewNomNakl.text = data.nomNakl
                     textViewNomZak.text = data.nomZak.toString()
+                    checkBoxItem.setOnClickListener {
+                        if (checkBoxItem.isChecked) {
+                            selectedItem.add(data)
+                        }
+                    }
+                    checkBoxItem.isChecked = false
                 }
             }
         }
