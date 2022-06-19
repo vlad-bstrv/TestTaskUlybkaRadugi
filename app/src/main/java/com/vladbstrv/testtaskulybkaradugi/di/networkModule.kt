@@ -3,6 +3,7 @@ package com.vladbstrv.testtaskulybkaradugi.di
 import android.content.Context
 import android.content.SharedPreferences
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
+import com.vladbstrv.testtaskulybkaradugi.R
 import com.vladbstrv.testtaskulybkaradugi.data.retrofit.DataApi
 import com.vladbstrv.testtaskulybkaradugi.data.retrofit.RetrofitRepositoryImpl
 import com.vladbstrv.testtaskulybkaradugi.domain.Repository
@@ -49,19 +50,19 @@ val networkModule = module {
             .build()
     }
 
-    single(named("login")) {
-        "l12345678"
-//        androidContext().getSharedPreferences("API_KEY", Context.MODE_PRIVATE)
-//            .getString("LOGIN", "")
+    factory(named("login")) {
+//        "l12345678"
+        androidContext().getSharedPreferences(androidContext().getString(R.string.app_name), Context.MODE_PRIVATE)
+            .getString("LOGIN", "")
     }
-    single(named("password")) {
-        "p12345678"
-//        androidContext().getSharedPreferences(
-//            "API_KEY",
-//            Context.MODE_PRIVATE
-//        ).getString("PASSWORD", "")
+    factory(named("password")) {
+//        "p12345678"
+        androidContext().getSharedPreferences(
+            androidContext().getString(R.string.app_name),
+            Context.MODE_PRIVATE
+        ).getString("PASSWORD", "")
     }
-    single(named("basic")) {
+    factory(named("basic")) {
         Credentials.basic(
             get(named("login")),
             get(named("password"))
