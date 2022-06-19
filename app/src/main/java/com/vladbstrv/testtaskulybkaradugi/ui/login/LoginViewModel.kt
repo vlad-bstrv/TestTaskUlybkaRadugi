@@ -1,5 +1,6 @@
 package com.vladbstrv.testtaskulybkaradugi.ui.login
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,15 +9,15 @@ import com.vladbstrv.testtaskulybkaradugi.domain.Repository
 import kotlinx.coroutines.launch
 
 class LoginViewModel(private val repo: Repository) : ViewModel() {
-    val data: MutableLiveData<AppState> = MutableLiveData<AppState>()
-
+    private val _data: MutableLiveData<AppState> = MutableLiveData<AppState>()
+    val data: LiveData<AppState> get() = _data
     fun getData() {
-        data.postValue(AppState.Loading(null))
+        _data.postValue(AppState.Loading(null))
         viewModelScope.launch {
             try {
-                data.postValue(AppState.Success(repo.getData()))
+                _data.postValue(AppState.Success(repo.getData()))
             } catch (e: Throwable) {
-                data.postValue(AppState.Error(e))
+                _data.postValue(AppState.Error(e))
             }
         }
     }

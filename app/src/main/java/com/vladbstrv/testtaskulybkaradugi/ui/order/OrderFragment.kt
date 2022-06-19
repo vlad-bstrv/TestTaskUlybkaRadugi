@@ -9,8 +9,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.vladbstrv.testtaskulybkaradugi.data.AppState
 import com.vladbstrv.testtaskulybkaradugi.databinding.FragmentOrderBinding
-import com.vladbstrv.testtaskulybkaradugi.domain.entity.DataEntity
-import com.vladbstrv.testtaskulybkaradugi.ui.order.adapter.OnListItemClickListener
 import com.vladbstrv.testtaskulybkaradugi.ui.order.adapter.OrderAdapter
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -33,17 +31,15 @@ class OrderFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.getData()
+        if (savedInstanceState == null) {
+            viewModel.getData()
+        }
+
         viewModel.data.observe(viewLifecycleOwner) {
             when (it) {
                 is AppState.Success -> {
                     binding.loadingFrameLayout.visibility = View.GONE
-                    orderAdapter = OrderAdapter(object : OnListItemClickListener {
-                        override fun onItemClick(data: DataEntity) {
-                            orderAdapter.addItemToBottom()
-                        }
-
-                    })
+                    orderAdapter = OrderAdapter()
                     binding.orderRecyclerView.apply {
                         layoutManager = LinearLayoutManager(requireContext())
                         adapter = orderAdapter
@@ -61,11 +57,14 @@ class OrderFragment : Fragment() {
         }
 
         binding.fabBottom.setOnClickListener {
+            viewModel.addDataBottom(orderAdapter.selectedItem)
             orderAdapter.addItemToBottom()
+            binding.orderRecyclerView.smoothScrollToPosition(orderAdapter.itemCount)
             orderAdapter.selectedItem.clear()
         }
 
         binding.fabTop.setOnClickListener {
+            viewModel.addDataTop(orderAdapter.selectedItem)
             orderAdapter.addItemToTop()
             orderAdapter.selectedItem.clear()
         }
@@ -73,7 +72,9 @@ class OrderFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        viewModel.sortData()
         _binding = null
     }
+
 
 }
