@@ -8,4 +8,5 @@
     <string name="nom_route">Номер маршрута</string>
     <string name="nom_nakl">Номер накладной</string>
     <string name="nom_zak">Номер заказа</string>
+    <string name="exit">Выйти</string>
 </resources>

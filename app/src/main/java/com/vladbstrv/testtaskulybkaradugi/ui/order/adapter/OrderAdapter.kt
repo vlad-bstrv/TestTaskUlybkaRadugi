@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.vladbstrv.testtaskulybkaradugi.databinding.FragmentOrderRecylerviewItemBinding
 import com.vladbstrv.testtaskulybkaradugi.domain.entity.DataEntity
 
-class OrderAdapter(val onListItemClickListener: OnListItemClickListener) :
+class OrderAdapter() :
     RecyclerView.Adapter<OrderAdapter.RecyclerItemViewHolder>() {
 
     private var data: MutableList<DataEntity> = mutableListOf()
@@ -20,14 +20,13 @@ class OrderAdapter(val onListItemClickListener: OnListItemClickListener) :
 
     fun addItemToBottom() {
         if(selectedItem.isNotEmpty()) {
-            data.addAll(selectedItem)
             notifyDataSetChanged()
+
         }
     }
 
     fun addItemToTop() {
         if(selectedItem.isNotEmpty()) {
-            data.addAll(0, selectedItem)
             notifyDataSetChanged()
         }
     }
